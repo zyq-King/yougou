@@ -1,27 +1,73 @@
 // pages/shou/shou.js
+import{request} from "../../request/index"
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    swiperList:[]
+    swiperList:[],
+    catesList:[],
+    floorList:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx-wx.request({
-      url: 'https://api-hmugo-web.itheima.net/api/public/v1/home/swiperdata',
-      success: (result) => {
-        this.setData({
-          swiperList:result.data.message
-        })
+
+    //轮播图的请求
+    // wx-wx.request({
+    //   url: 'https://api-hmugo-web.itheima.net/api/public/v1/home/swiperdata',
+    //   success: (result) => {
+    //     this.setData({
+    //       swiperList:result.data.message
+    //     })
         
-      }
+    //   }
+    // })
+
+    // 封装过后的请求
+    // request({ url: 'https://api-hmugo-web.itheima.net/api/public/v1/home/swiperdata'})
+    // .then(result => {
+    //   this.setData({
+    //           swiperList:result.data.message
+    //         })
+    // })
+    this.getSwiperList(),
+    this.getCatesList(),
+    this.getFloorList()
+  },
+
+  // 分类数据
+  getCatesList(){
+    request({ url: 'https://api-hmugo-web.itheima.net/api/public/v1/home/catitems'})
+    .then(result => {
+      this.setData({
+        catesList:result.data.message
+            })
     })
   },
+// 获取轮播图数据的函数块
+  getSwiperList(){
+    request({ url: 'https://api-hmugo-web.itheima.net/api/public/v1/home/swiperdata'})
+    .then(result => {
+      this.setData({
+              swiperList:result.data.message
+            })
+    })
+  },
+  // 获取楼层数据的函数块
+  getFloorList(){
+    request({ url: 'https://api-hmugo-web.itheima.net/api/public/v1/home/floordata'})
+    .then(result => {
+      this.setData({
+              floorList:result.data.message
+            })
+    })
+  },
+
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成
